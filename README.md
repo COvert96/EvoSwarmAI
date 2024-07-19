@@ -8,8 +8,6 @@ EvoSwarmAI is a simulation project that demonstrates the evolution of a swarm of
 - [Installation](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
