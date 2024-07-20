@@ -1,5 +1,4 @@
 import random
-
 import pygame
 from environment import Environment, GRID_WIDTH, CELL_SIZE, GRID_HEIGHT
 from drone import Drone
@@ -9,7 +8,7 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE))
     clock = pygame.time.Clock()
     env = Environment()
-    drones = [Drone(random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1), env) for _ in range(10)]
+    drones = [Drone(random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1), env, perception_range=2) for _ in range(10)]
 
     running = True
     while running:
