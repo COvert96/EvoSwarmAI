@@ -2,10 +2,7 @@ import random
 import pygame
 from config import GRID_WIDTH, GRID_HEIGHT, CELL_SIZE, NUM_DRONES, PERCEPTION_RANGE
 from environment import Environment
-from drone import SharedMemory, Drone, DroneController
-from agents import MultiAgent
-from stable_baselines3 import PPO
-from stable_baselines3.common.vec_env import DummyVecEnv
+from drone import SharedMemory, Drone
 
 
 def draw_shared_memory(screen, shared_memory):
@@ -29,46 +26,25 @@ def main():
     shared_memory = SharedMemory(GRID_WIDTH, GRID_HEIGHT)
 
     # Initialise drones and agents
-    agents = []
     drones = []
-    controllers = []
     for _ in range(NUM_DRONES):
         x, y = 0, 0
         drone = Drone(x, y, environment, PERCEPTION_RANGE, shared_memory)
-        agent = MultiAgent(action_space=[0, 1, 2, 3], state_space=...)
         drones.append(drone)
-        agents.append(agent)
 
-    controllers = [DroneController(drone, agent) for drone, agent in zip(drones, agents)]
-
-    # Create vectorized environment
-    env = DummyVecEnv([lambda: MultiAgentEnv(GRID_WIDTH, GRID_HEIGHT, NUM_DRONES)])
-
-    # Define the PPO model
-    model = PPO('CnnPolicy', env, verbose=1, tensorboard_log="./ppo_marl_tensorboard/")
-
-    # Train the model
-    model.learn(total_timesteps=100000)
-
-    # Save the model
-    model.save("ppo_marl_drone")
-
-
-if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE))
     clock = pygame.time.Clock()
 
-    SHARED_MEMORY_VIEW = False
-
-
+    SHARED_MEMORY_VIEW = True
 
     # Initialise Pygame windows
     screen_env = pygame.display.set_mode((GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE))
     screen_memory = pygame.display.set_mode((GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE))
 
     # Display shared memory or actual environment w/ drones
-    pygame.display.set_caption('Shared Memory') if SHARED_MEMORY_VIEW else pygame.display.set_caption('Environment and Drones')
+    pygame.display.set_caption('Shared Memory') if SHARED_MEMORY_VIEW else pygame.display.set_caption(
+        'Environment and Drones')
 
     paused = False
     running = True
@@ -86,7 +62,7 @@ if __name__ == "__main__":
                 drone.update_shared_memory()
 
         screen_env.fill((255, 255, 255))
-        env.draw(screen)
+        environment.draw(screen)
         for drone in drones:
             drone.draw(screen_env)
 
@@ -101,3 +77,16 @@ if __name__ == "__main__":
         clock.tick(10)
 
     pygame.quit()
+
+    # # Define the PPO model
+    # model = PPO('CnnPolicy', env, verbose=1, tensorboard_log="./ppo_marl_tensorboard/")
+    #
+    # # Train the model
+    # model.learn(total_timesteps=100000)
+    #
+    # # Save the model
+    # model.save("ppo_marl_drone")
+
+
+if __name__ == "__main__":
+    main()

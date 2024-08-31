@@ -2,7 +2,6 @@ import math
 import random
 import pygame
 
-from agents import MultiAgent
 from environment import GRID_WIDTH, CELL_SIZE, GRID_HEIGHT
 
 
@@ -100,19 +99,6 @@ class Drone:
 
         # Draw the drone
         pygame.draw.rect(screen, (0, 0, 255), pygame.Rect(self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-
-
-class DroneController:
-    def __init__(self, drone: Drone, agent: MultiAgent):
-        self.drone = drone
-        self.agent = agent
-
-    def take_action(self):
-        state = self.drone.get_state_representation()
-        action = self.agent.choose_action(state)
-        reward = self.drone.perform_action(action)
-        next_state = self.drone.get_state_representation()
-        self.agent.learn(state, action, reward, next_state)
 
 
 if __name__ == "__main__":
