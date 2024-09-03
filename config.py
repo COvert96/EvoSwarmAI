@@ -10,4 +10,4 @@ PERCEPTION_RANGE = 2
 OBSTACLE_PERCENTAGE = 0.2  # % of the grid will be obstacles
 
 # Visualization settings
-CELL_SIZE = 20  # Size of each cell in pixels
+CELL_SIZE = 10  # Size of each cell in pixels
